@@ -28,12 +28,14 @@ from .tweet import Tweet
 from .user import User
 
 
-def tweet_from_data(client: GuestClient, data: dict) -> Tweet:
+def tweet_from_data(client: GuestClient, data: dict, index: int = 0) -> Tweet:
     ':meta private:'
-    tweet_data_ = find_dict(data, 'result', True)
-    if not tweet_data_:
+    tweet_data_ = find_dict(data, 'result', index == 0)
+    if tweet_data_ and index > 0:
+        tweet_data_ = [ _i for _i in tweet_data_ if _i.get('__typename') == 'Tweet']
+    if not tweet_data_ or len(tweet_data_) <= index:
         return None
-    tweet_data = tweet_data_[0]
+    tweet_data = tweet_data_[index]
 
     if tweet_data.get('__typename') == 'TweetTombstone':
         return None
@@ -314,10 +316,16 @@ class GuestClient:
             entry_id = item['entryId']
             if not entry_id.startswith(('tweet', 'profile-conversation', 'profile-grid')):
                 continue
-            tweet = tweet_from_data(self, item)
-            if tweet is None:
-                continue
-            results.append(tweet)
+            if entry_id.startswith('profile-conversation'):
+                items_ = find_dict(response, 'items', True)[0]
+                for _index in range(len(items_)):
+                    tweet = tweet_from_data(self, item, _index)
+                    if tweet is not None:
+                        results.append(tweet)
+            else:
+                tweet = tweet_from_data(self, item)
+                if tweet is not None:
+                    results.append(tweet)
 
         return results
 

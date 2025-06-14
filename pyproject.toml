@@ -1,0 +1,16 @@
+[project]
+name = "twikitfks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "filetype>=1.2.0",
+    "httpx[socks]>=0.28.1",
+    "js2py-3-13>=0.74.1",
+    "lxml>=5.4.0",
+    "m3u8>=6.0.0",
+    "pyotp>=2.9.0",
+    "webvtt-py>=0.5.1",
+]
