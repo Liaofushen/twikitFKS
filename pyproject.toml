@@ -1,11 +1,12 @@
 [project]
 name = "twikitfks"
-version = "0.1.0"
-description = "Add your description here"
+version = "2.3.1"
+description = "Fork from twikit 2.3.1, conversation twitter spit"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "beautifulsoup4>=4.13.4",
+    "build>=1.2.2.post1",
     "filetype>=1.2.0",
     "httpx[socks]>=0.28.1",
     "js2py-3-13>=0.74.1",
